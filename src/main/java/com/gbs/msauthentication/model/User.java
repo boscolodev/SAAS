@@ -18,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_user")
+@Table(name = "TB_USER")
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -31,19 +31,18 @@ public class User implements Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
+            name = "USER_ROLE",
+            joinColumns = @JoinColumn(name = "user_email"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
     @Column(nullable = false)
-    private boolean status;
+    private String status;
 
     @Embedded
     private UserData userData;
 
     @ElementCollection
-    @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "USER_ADDRESSES", joinColumns = @JoinColumn(name = "user_email"))
     private List<Address> addresses = new ArrayList<>();
-
 }

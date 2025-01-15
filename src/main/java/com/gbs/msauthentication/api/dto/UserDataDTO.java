@@ -1,29 +1,32 @@
-package com.gbs.msauthentication.model;
+package com.gbs.msauthentication.api.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Embeddable
-public class UserData implements Serializable {
+public class UserDataDTO implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty
     private String nome;
+    @NotEmpty
     private String sobrenome;
-    @Column(nullable = false, unique = true, name = "cpf_cnpj")
+    @NotEmpty
     private String cpfCnpj;
-    @Column(unique = true, name = "rg_ie")
+    @NotEmpty
     private String rgIe;
-    @Column(name = "data_nascimento")
+    @NotEmpty
     private String dataNascimento;
+    @NotEmpty
     private String telefone;
 }

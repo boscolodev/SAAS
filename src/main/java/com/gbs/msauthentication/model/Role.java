@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_role")
+@Table(name = "TB_ROLE")
 public class Role implements Serializable{
 
     @Serial
@@ -29,7 +29,7 @@ public class Role implements Serializable{
     @Column(nullable = false, unique = true)
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 
 }

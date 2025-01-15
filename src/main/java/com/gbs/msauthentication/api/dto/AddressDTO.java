@@ -1,25 +1,29 @@
-package com.gbs.msauthentication.model;
+package com.gbs.msauthentication.api.dto;
 
-import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Embeddable
-public class Address implements Serializable {
-
+@AllArgsConstructor
+@NoArgsConstructor
+public class AddressDTO implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
+    @NotNull
     private String id;
+    @NotEmpty
     private String cep;
     private String logradouro;
+    @NotEmpty
     private String numero;
     private String complemento;
     private String bairro;
@@ -31,5 +35,4 @@ public class Address implements Serializable {
     private String gia;
     private String ddd;
     private String siafi;
-
 }
