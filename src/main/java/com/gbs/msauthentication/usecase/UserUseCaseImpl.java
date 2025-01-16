@@ -5,8 +5,8 @@ import com.gbs.msauthentication.api.dto.response.UserResponseDTO;
 import com.gbs.msauthentication.api.exception.DatabaseException;
 import com.gbs.msauthentication.model.Role;
 import com.gbs.msauthentication.model.User;
-import com.gbs.msauthentication.repositories.RoleRepository;
-import com.gbs.msauthentication.repositories.UserRepository;
+import com.gbs.msauthentication.gateways.RoleGateway;
+import com.gbs.msauthentication.gateways.UserGateway;
 import com.gbs.msauthentication.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,17 +24,17 @@ import java.util.UUID;
 @Slf4j
 public class UserUseCaseImpl implements UserUseCase {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final UserGateway userGateway;
+    private final RoleGateway roleGateway;
 
     public Page<UserResponseDTO> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable)
+        return userGateway.findAll(pageable)
                 .map(user -> MapperUtil.converte(user, UserResponseDTO.class));
     }
 
     public UserResponseDTO findByEmail(String email) {
 
-        return MapperUtil.converte(userRepository.findByEmail(email)
+        return MapperUtil.converte(userGateway.findByEmail(email)
                 .orElseThrow(() -> new DatabaseException("User not found"))
                 , UserResponseDTO.class);
     }
@@ -57,11 +57,11 @@ public class UserUseCaseImpl implements UserUseCase {
         User user = MapperUtil.converte(userRequestDTO, User.class);
         user.setRoles(roles);
 
-        return MapperUtil.converte(userRepository.save(user), UserResponseDTO.class);
+        return MapperUtil.converte(userGateway.save(user), UserResponseDTO.class);
     }
 
     private void isUserRegistered(String email, String documento) {
-        userRepository.findByEmailOrUserData_CpfCnpj(email, documento).ifPresent(user -> {
+        userGateway.findByEmailOrUserData_CpfCnpj(email, documento).ifPresent(user -> {
             if (user.getEmail().equals(email)) {
                 throw new DatabaseException("Email already registered");
             }
@@ -72,7 +72,7 @@ public class UserUseCaseImpl implements UserUseCase {
     }
 
     private Role findRoleByRole(String role){
-        return roleRepository.findByRole(role).orElseThrow(() -> new DatabaseException("Role not found"));
+        return roleGateway.findByRole(role).orElseThrow(() -> new DatabaseException("Role not found"));
     }
 
 
