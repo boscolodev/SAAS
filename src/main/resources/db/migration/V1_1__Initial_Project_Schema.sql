@@ -5,7 +5,7 @@ CREATE TABLE TB_ROLE (
 
 CREATE TABLE TB_USER (
                          email VARCHAR(255) NOT NULL PRIMARY KEY,
-                         password VARCHAR(12) NOT NULL,
+                         password VARCHAR(255) NOT NULL,
                          status VARCHAR(255) NOT NULL,
                          nome VARCHAR(255),
                          sobrenome VARCHAR(255),
@@ -48,10 +48,10 @@ INSERT INTO TB_ROLE (role) VALUES ('MASTER');
 INSERT INTO TB_ROLE (role) VALUES ('GUEST');
 
 INSERT INTO TB_USER (email, password, status, nome, sobrenome, cpf_cnpj, rg_ie, data_nascimento, telefone) VALUES
-                                                                                                               ('admin@example.com', 'adminPass', 'ATIVO' , 'Admin', 'User', '00000000000', '0000000', '1970-01-01', '0000000000'),
-                                                                                                               ('user@example.com', 'userPass', 'BLOQUEADO', 'Regular', 'User', '11111111111', '1111111', '1980-01-01', '1111111111'),
-                                                                                                               ('master@example.com', 'masterPass', 'ATIVO', 'Master', 'User', '22222222222', '2222222', '1990-01-01', '2222222222'),
-                                                                                                               ('guest@example.com', 'guestPass', 'INATIVO', 'Guest', 'User', '33333333333', '3333333', '2000-01-01', '3333333333');
+                                                                                                               ('admin@example.com', '$2a$12$xAAYbyFNHfoXUNQOjqQ8auJS693Vh1oBq6GR9XTlotflxWB8kqJTG', 'ATIVO' , 'Admin', 'User', '00000000000', '0000000', '1970-01-01', '0000000000'),
+                                                                                                               ('user@example.com', '$2a$12$xAAYbyFNHfoXUNQOjqQ8auJS693Vh1oBq6GR9XTlotflxWB8kqJTG', 'BLOQUEADO', 'Regular', 'User', '11111111111', '1111111', '1980-01-01', '1111111111'),
+                                                                                                               ('master@example.com', '$2a$12$xAAYbyFNHfoXUNQOjqQ8auJS693Vh1oBq6GR9XTlotflxWB8kqJTG', 'ATIVO', 'Master', 'User', '22222222222', '2222222', '1990-01-01', '2222222222'),
+                                                                                                               ('guest@example.com', '$2a$12$xAAYbyFNHfoXUNQOjqQ8auJS693Vh1oBq6GR9XTlotflxWB8kqJTG', 'INATIVO', 'Guest', 'User', '33333333333', '3333333', '2000-01-01', '3333333333');
 
 INSERT INTO USER_ROLE (user_email, role_id) VALUES
                                                 ('admin@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ADMIN')),
