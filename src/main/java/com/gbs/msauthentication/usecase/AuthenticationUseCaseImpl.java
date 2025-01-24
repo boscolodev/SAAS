@@ -6,13 +6,9 @@ import com.gbs.msauthentication.api.dto.request.UserRequestDTO;
 import com.gbs.msauthentication.api.dto.response.RefeshTokenResponse;
 import com.gbs.msauthentication.api.dto.response.UserResponseDTO;
 import com.gbs.msauthentication.api.exception.InvalidTokenExcetpion;
-import com.gbs.msauthentication.model.User;
 import com.gbs.msauthentication.security.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +17,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,7 +53,6 @@ public class AuthenticationUseCaseImpl implements AuthenticationUseCase {
         if(jwtUtil.validateRefreshToken(refreshToken)){
             String email = jwtUtil.extractUsername(refreshToken);
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-            Hibernate.initialize(((User) userDetails).getRoles());
             String token = jwtUtil.generateToken(userDetails);
             return new RefeshTokenResponse(token,refreshToken, email);
         } else {
