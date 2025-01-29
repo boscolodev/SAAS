@@ -2,7 +2,9 @@
 
 ## Descrição do Projeto
 
-Este projeto é uma aplicação de microserviços que inclui diversos serviços, como o `ms-authentication`, que é responsável pelo login e cadastro de usuários.
+Este projeto é uma aplicação de microserviços com a finalidade de um sistema Saas para Alimentação que inclui diversos serviços:
+
+`ms-authentication`, que é responsável pelo login e cadastro de usuários.
 
 ## Tecnologias Utilizadas
 
