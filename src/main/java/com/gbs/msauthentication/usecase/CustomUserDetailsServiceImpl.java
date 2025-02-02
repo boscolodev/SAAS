@@ -12,6 +12,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
     private final UserGateway userGateway;
 
+    @Override
     public UserDetails loadUserByUsername(String email) {
         return userGateway.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
