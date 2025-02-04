@@ -12,12 +12,18 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Base64;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
 
     private Key key;
+
+    @Value("${jwt.secret}")
+    private String secret;
 
     @Value("${jwt.access-token-expiration}")
     private long accessTokenExpiration;
@@ -27,18 +33,26 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        byte[] keyBytes = Keys.secretKeyFor(SignatureAlgorithm.HS256).getEncoded();
+        String base64Key = Base64.getEncoder().encodeToString(keyBytes);
+        this.key = Keys.hmacShaKeyFor(base64Key.getBytes());
     }
+
 
     private String generateToken(UserDetails userDetails, long expirationSeconds) {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         ZonedDateTime expiration = now.plusSeconds(expirationSeconds);
+
+        List<String> authorities = userDetails.getAuthorities().stream()
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .collect(Collectors.toList());
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(now.toInstant()))
                 .setExpiration(Date.from(expiration.toInstant()))
+                .claim("authorities", authorities)
                 .signWith(key)
                 .compact();
     }
@@ -60,7 +74,7 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    public boolean validateRefreshToken(String token) {
+    public boolean isValid(String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)

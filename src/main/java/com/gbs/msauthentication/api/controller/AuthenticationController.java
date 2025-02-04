@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/auth/v1")
 public class AuthenticationController {
 
     private final AuthenticationUseCase authenticationUseCase;

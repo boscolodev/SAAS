@@ -42,10 +42,10 @@ CREATE TABLE USER_ADDRESSES (
                                 FOREIGN KEY (user_email) REFERENCES TB_USER(email)
 );
 
-INSERT INTO TB_ROLE (role) VALUES ('ADMIN');
-INSERT INTO TB_ROLE (role) VALUES ('USER');
-INSERT INTO TB_ROLE (role) VALUES ('MASTER');
-INSERT INTO TB_ROLE (role) VALUES ('GUEST');
+INSERT INTO TB_ROLE (role) VALUES ('ROLE_ADMIN');
+INSERT INTO TB_ROLE (role) VALUES ('ROLE_USER');
+INSERT INTO TB_ROLE (role) VALUES ('ROLE_MASTER');
+INSERT INTO TB_ROLE (role) VALUES ('ROLE_GUEST');
 
 INSERT INTO TB_USER (email, password, status, nome, sobrenome, cpf_cnpj, rg_ie, data_nascimento, telefone) VALUES
                                                                                                                ('admin@example.com', '$2a$12$xAAYbyFNHfoXUNQOjqQ8auJS693Vh1oBq6GR9XTlotflxWB8kqJTG', 'ATIVO' , 'Admin', 'User', '00000000000', '0000000', '1970-01-01', '0000000000'),
@@ -54,15 +54,15 @@ INSERT INTO TB_USER (email, password, status, nome, sobrenome, cpf_cnpj, rg_ie, 
                                                                                                                ('guest@example.com', '$2a$12$xAAYbyFNHfoXUNQOjqQ8auJS693Vh1oBq6GR9XTlotflxWB8kqJTG', 'INATIVO', 'Guest', 'User', '33333333333', '3333333', '2000-01-01', '3333333333');
 
 INSERT INTO USER_ROLE (user_email, role_id) VALUES
-                                                ('admin@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ADMIN')),
-                                                ('admin@example.com', (SELECT id FROM TB_ROLE WHERE role = 'USER')),
-                                                ('admin@example.com', (SELECT id FROM TB_ROLE WHERE role = 'GUEST')),
-                                                ('user@example.com', (SELECT id FROM TB_ROLE WHERE role = 'USER')),
-                                                ('master@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ADMIN')),
-                                                ('master@example.com', (SELECT id FROM TB_ROLE WHERE role = 'USER')),
-                                                ('master@example.com', (SELECT id FROM TB_ROLE WHERE role = 'MASTER')),
-                                                ('master@example.com', (SELECT id FROM TB_ROLE WHERE role = 'GUEST')),
-                                                ('guest@example.com', (SELECT id FROM TB_ROLE WHERE role = 'GUEST'));
+                                                ('admin@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_ADMIN')),
+                                                ('admin@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_USER')),
+                                                ('admin@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_GUEST')),
+                                                ('user@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_USER')),
+                                                ('master@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_ADMIN')),
+                                                ('master@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_USER')),
+                                                ('master@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_MASTER')),
+                                                ('master@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_GUEST')),
+                                                ('guest@example.com', (SELECT id FROM TB_ROLE WHERE role = 'ROLE_GUEST'));
 
 INSERT INTO USER_ADDRESSES (id, user_email, cep, logradouro, numero, complemento, bairro, localidade, uf, estado, regiao, ibge, gia, ddd, siafi) VALUES
                                                                                                                                                      (1, 'user@example.com', '12345-678', 'Rua User', '100', 'Apto 1', 'Bairro User', 'Cidade User', 'UF', 'Estado User', 'Região User', '1234567', '1234', '12', '1234'),

@@ -9,6 +9,7 @@ import com.gbs.msauthentication.api.exception.InvalidTokenExcetpion;
 import com.gbs.msauthentication.security.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationUseCaseImpl implements AuthenticationUseCase {
 
     private final AuthenticationManager authenticationManager;
@@ -36,9 +38,12 @@ public class AuthenticationUseCaseImpl implements AuthenticationUseCase {
             );
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String token = jwtUtil.generateToken(userDetails);
+            log.info("Authentication successful for user: {}", loginRequest.email());
+
             return new LoginResponse(token, loginRequest.email());
 
         } catch (AuthenticationException e) {
+            log.error("Authentication failed for user: {}", loginRequest.email(), e);
             throw new BadCredentialsException("Invalid credentials");
         }
     }
@@ -50,7 +55,7 @@ public class AuthenticationUseCaseImpl implements AuthenticationUseCase {
 
     @Transactional
     public RefeshTokenResponse refreshToken(final String refreshToken) {
-        if(jwtUtil.validateRefreshToken(refreshToken)){
+        if(jwtUtil.isValid(refreshToken)){
             String email = jwtUtil.extractUsername(refreshToken);
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             String token = jwtUtil.generateToken(userDetails);
