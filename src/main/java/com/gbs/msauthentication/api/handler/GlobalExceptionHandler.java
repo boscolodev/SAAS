@@ -40,13 +40,15 @@ public class GlobalExceptionHandler {
         error.setTimestamp(LocalDateTime.now());
         error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         error.setError("Method Argument NotValid Exception");
-        error.setMessage(e.getMessage());
         error.setPath(request.getRequestURI());
 
-        for( FieldError f : e.getBindingResult().getFieldErrors()) {
+        StringBuilder errorMessage = new StringBuilder();
+        for (FieldError f : e.getBindingResult().getFieldErrors()) {
             error.addError(f.getField(), f.getDefaultMessage());
+            errorMessage.append(f.getField()).append(": ").append(f.getDefaultMessage()).append("; ");
         }
 
+        error.setMessage(errorMessage.toString().trim()); // Definindo a mensagem corretamente
         return error;
     }
 

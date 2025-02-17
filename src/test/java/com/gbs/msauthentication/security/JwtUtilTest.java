@@ -1,6 +1,6 @@
 package com.gbs.msauthentication.security;
 
-import com.gbs.msauthentication.TestFactory;
+import com.gbs.msauthentication.ModelFactory;
 import com.gbs.msauthentication.TestUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -50,7 +50,7 @@ class JwtUtilTest {
 
     @Test
     void shouldGenerateTokenWhenUserDetailsWithUsernameAndPasswordIsCorrect() {
-        UserDetails userDetails = TestFactory.createUserDetails("admin@example.com");
+        UserDetails userDetails = ModelFactory.createUserDetails("admin@example.com");
 
         // Gera o token de acesso
         String token = jwtUtil.generateToken(userDetails);
@@ -61,7 +61,7 @@ class JwtUtilTest {
 
     @Test
     void shouldValidateJwtStructureWhenTokenIsValid() {
-        UserDetails userDetails = TestFactory.createUserDetails("admin@example.com");
+        UserDetails userDetails = ModelFactory.createUserDetails("admin@example.com");
 
         // Gera o token de acesso
         String token = jwtUtil.generateToken(userDetails);
@@ -75,7 +75,7 @@ class JwtUtilTest {
 
     @Test
     void shouldExtractUsernameFromToken() {
-        UserDetails userDetails = TestFactory.createUserDetails("admin@example.com");
+        UserDetails userDetails = ModelFactory.createUserDetails("admin@example.com");
 
         // Gera o token de acesso
         String token = jwtUtil.generateToken(userDetails);
@@ -88,7 +88,7 @@ class JwtUtilTest {
 
     @Test
     void shouldGenerateRefreshToken() {
-        UserDetails userDetails = TestFactory.createUserDetails("user@example.com");
+        UserDetails userDetails = ModelFactory.createUserDetails("user@example.com");
 
         // Gera o token de refresh
         String refreshToken = jwtUtil.generateRefreshToken(userDetails);
@@ -99,7 +99,7 @@ class JwtUtilTest {
 
     @Test
     void shouldContainAuthoritiesInToken() {
-        UserDetails userDetails = TestFactory.createUserDetailsWithAuthorities("admin@example.com", "ROLE_USER", "ROLE_ADMIN");
+        UserDetails userDetails = ModelFactory.createUserDetailsWithAuthorities("admin@example.com", "ROLE_USER", "ROLE_ADMIN");
 
         String token = jwtUtil.generateToken(userDetails);
 
