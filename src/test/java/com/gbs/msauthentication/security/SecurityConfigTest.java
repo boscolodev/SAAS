@@ -36,21 +36,17 @@ class SecurityConfigTest {
     }
 
     @Test
-    void securityFilterChain_ShouldConfigureHttpSecurityCorrectly() throws Exception {
-        // Mockando chamadas encadeadas do HttpSecurity
+    void securityFilterChainShouldConfigureHttpSecurityCorrectly() throws Exception {
         when(httpSecurity.csrf(any())).thenReturn(httpSecurity);
         when(httpSecurity.authorizeHttpRequests(any())).thenReturn(httpSecurity);
         when(httpSecurity.sessionManagement(any())).thenReturn(httpSecurity);
         when(httpSecurity.authenticationProvider(authenticationProvider)).thenReturn(httpSecurity);
         when(httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)).thenReturn(httpSecurity);
 
-        // Aqui usamos doReturn() para evitar erro de método final
         doReturn(securityFilterChain).when(httpSecurity).build();
 
-        // Executa o método sob teste
         SecurityFilterChain filterChain = securityConfig.securityFilterChain(httpSecurity);
 
-        // Verificações
         assertNotNull(filterChain);
         verify(httpSecurity).csrf(any());
         verify(httpSecurity).authorizeHttpRequests(any());

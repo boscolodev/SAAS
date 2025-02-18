@@ -13,7 +13,7 @@ import java.util.Set;
 public class DTOFactory {
 
     public static LoginRequest createValidLoginRequest() {
-        return new LoginRequest("user@example.com", "password123");
+        return new LoginRequest("user@example.com", "123456");
     }
 
     public static LoginRequest createInvalidLoginRequest() {
@@ -41,9 +41,9 @@ public class DTOFactory {
                 "user@example.com",
                 "password123",
                 "ACTIVE",
-                new UserDataDTO(),  // Assumindo que o construtor padrão seja válido
+                new UserDataDTO(),
                 Set.of(createValidRoleRequestDTO()),
-                List.of(new AddressDTO()) // Assumindo que o construtor padrão seja válido
+                List.of(new AddressDTO())
         );
     }
 

@@ -68,17 +68,14 @@ class ApplicationConfigTest {
         UserDetailsService userDetailsService = mock(UserDetailsService.class);
         PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        // Create a real instance of ApplicationConfig
         ApplicationConfig applicationConfig = new ApplicationConfig(userGateway);
 
-        // Mock the methods to return the correct mocks
         ApplicationConfig applicationConfigSpy = spy(applicationConfig);
         doReturn(userDetailsService).when(applicationConfigSpy).userDetailsService();
         doReturn(passwordEncoder).when(applicationConfigSpy).passwordEncoder();
 
         DaoAuthenticationProvider authProvider = (DaoAuthenticationProvider) applicationConfigSpy.authenticationProvider();
 
-        // Use reflection to access protected methods
         Method getUserDetailsServiceMethod = DaoAuthenticationProvider.class.getDeclaredMethod("getUserDetailsService");
         getUserDetailsServiceMethod.setAccessible(true);
         UserDetailsService actualUserDetailsService = (UserDetailsService) getUserDetailsServiceMethod.invoke(authProvider);

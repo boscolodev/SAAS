@@ -26,7 +26,7 @@ class CustomUserDetailsServiceTest {
     private CustomUserDetailsServiceImpl customUserDetailsService;
 
     @Test
-    void testLoadUserByUsername_UserFound() {
+    void testLoadUserByUsernameUserFound() {
         User user = ModelFactory.createUser();
         when(userGateway.findByEmail("user@example.com")).thenReturn(Optional.of(user));
 
